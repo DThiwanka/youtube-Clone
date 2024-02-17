@@ -33,21 +33,73 @@ export const deleteUser = async (req, res, next) => {
 
 export const getUser = async (req, res, next) => {
 
+    try {
+        const user = await User.findById(req.params.id);
+        res.status(200).json(user);
+
+    } catch (error) {
+        next(error);
+    }
+
 }
 
 export const subscribe = async (req, res, next) => {
+    try {
+        await User.findByIdAndUpdate(req.user.id, {
+            $push: {
+                subscribedUsers: req.params.id
+            }
+        })
+        await User.findByIdAndUpdate(req.params.id, {
+            $inc: {
+                subscribers: 1
+            }
+        });
+
+        res.status(200).json("Subscription Added! ✔️")
+
+    } catch (error) {
+        next(error);
+    }
 
 }
 
 export const unsubscribe = async (req, res, next) => {
+    try {
+        await User.findByIdAndUpdate(req.user.id, {
+            $pull: {
+                subscribedUsers: req.params.id
+            }
+        })
+        await User.findByIdAndUpdate(req.params.id, {
+            $inc: {
+                subscribers: -1
+            }
+        });
+
+        res.status(200).json("Unsubscription Successs! ✔️")
+
+    } catch (error) {
+        next(error);
+    }
 
 }
 
 export const like = async (req, res, next) => {
+    try {
+
+    } catch (error) {
+        next(error);
+    }
 
 }
 
 
 export const dislike = async (req, res, next) => {
+    try {
+
+    } catch (error) {
+        next(error);
+    }
 
 }
