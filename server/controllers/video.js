@@ -98,7 +98,7 @@ export const random = async (req, res, next) => {
 export const trend = async (req, res, next) => {
     try {
         const videos = await Video.find().sort({
-            views:-1
+            views: -1
         })
         res.status(200).json(videos);
 
@@ -121,7 +121,36 @@ export const sub = async (req, res, next) => {
             })
         )
 
-        res.status(200).json(list.flat().sort((a,b)=>b.createdAt -a.createdAt));
+        res.status(200).json(list.flat().sort((a, b) => b.createdAt - a.createdAt));
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const getByTag = async (req, res, next) => {
+    const tags = req.query.tags.split(',');
+    console.log(tags);
+    try {
+        const videos = await Video.find({ tags: { $in: tags } }
+        ).limit(20);
+        res.status(200).json(videos);
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+export const search = async (req, res, next) => {
+    const query = req.query.q;
+    try {
+        const videos = await Video.find({
+            title: {
+                $regex: query,
+                $options:"i",
+        }}).limit(40);
+        res.status(200).json(videos);
 
     } catch (error) {
         next(error);
