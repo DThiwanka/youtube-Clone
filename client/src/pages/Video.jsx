@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbDownOffAltOutlinedIcon from "@mui/icons-material/ThumbDownOffAltOutlined";
@@ -6,11 +6,16 @@ import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
 import Comments from "../components/Comments";
 import Card from "../components/Card";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
+// import { set, mongoose } from "mongoose";
 
 const Container = styled.div`
   display: flex;
   gap: 24px;
 `;
+
 
 const Content = styled.div`
   flex: 5;
@@ -105,6 +110,31 @@ const Subscribe = styled.button`
 `;
 
 const Video = () => {
+
+  const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const path = useLocation().pathname.split("/")[2];
+
+  const [channel, setChannel] = useState({});
+
+  console.log(path);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const videoRes = await axios.get(`/videos/find/${path}`);
+        const channelRes = await axios.get(`/videos/find/${videoRes.userId}`);
+
+        setChannel(channelRes.data);
+      } catch (error) {
+        console.log(error);
+
+      }
+    }
+    fetchData();
+  }, [path])
+
   return (
     <Container>
       <Content>
@@ -155,9 +185,9 @@ const Video = () => {
           <Subscribe>SUBSCRIBE</Subscribe>
         </Channel>
         <Hr />
-        <Comments/>
+        <Comments />
       </Content>
-      <Recommendation>
+      {/* <Recommendation>
         <Card type="sm"/>
         <Card type="sm"/>
         <Card type="sm"/>
@@ -171,7 +201,7 @@ const Video = () => {
         <Card type="sm"/>
         <Card type="sm"/>
         <Card type="sm"/>
-      </Recommendation>
+      </Recommendation> */}
     </Container>
   );
 };

@@ -35,6 +35,7 @@ const Search = styled.div`
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 3px;
+  color: ${({ theme }) => theme.text};
 `;
 
 const Input = styled.input`
@@ -42,6 +43,7 @@ const Input = styled.input`
   background-color: transparent;
   outline: none;
   color: ${({ theme }) => theme.text};
+
 `;
 
 const Button = styled.button`
@@ -62,16 +64,15 @@ const User = styled.div`
   align-items: center;
   gap: 10px;
   font-weight: 500;
-  color:${({ theme }) => theme.text}})}
-  
+  color: ${({ theme }) => theme.text};
 `;
 
 const Avatar = styled.img`
-  width: 32px;
-  height: 32px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   background-color: #999;
-  `
+`;
 
   
 
@@ -89,7 +90,7 @@ const Navbar = () => {
         {currentUser ? (
           <User>
             <VideoCallOutlinedIcon />
-            <Avatar />
+            <Avatar src={currentUser.img} />
             {currentUser.name}
             
         </User>
