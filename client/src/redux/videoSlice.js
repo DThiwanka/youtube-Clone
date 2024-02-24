@@ -32,6 +32,6 @@ export const videoSlice = createSlice({
     },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout } = videoSlice.actions;
+export const { fetchStart, fetchSuccess, fetchFailure } = videoSlice.actions;
 
 export default videoSlice.reducer;
