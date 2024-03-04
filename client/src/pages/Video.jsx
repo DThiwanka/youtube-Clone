@@ -9,7 +9,7 @@ import Card from "../components/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { json, useLocation } from "react-router-dom";
 import axios from "axios";
-import { fetchSuccess } from "../redux/videoSlice";
+import { dislike, fetchSuccess, like } from "../redux/videoSlice";
 import TimeAgo from "react-timeago";
 // import { set, mongoose } from "mongoose";
 
@@ -151,11 +151,15 @@ const Video = () => {
 
   const handleLike = async () => {
     await axios.put(`/users/like/${video._id}`);
+    dispatch(like(currentUser._id))
+    alert("Liked");
 
   };
 
   const handleDisLike = async () => {
     await axios.put(`/users/dislike/${video._id}`);
+    dispatch(dislike(currentUser._id))
+    alert("Disliked");
 
   }
 
